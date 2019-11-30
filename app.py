@@ -49,13 +49,15 @@ from flask import * # 載入 flask 模組
 app=Flask("My Website") # 建立一個網站應用程式物件
 
 #網站的網址:http://主機名稱/路徑?參數名稱=資料&參出名稱=資料&........  (主機>下面打的程式)
-#例如:http://127.0.0.1:5000/
+#例如:https://test2019-11-30.herokuapp.com//
 #如果打http://127.0.0.1:5000/jdosfkolja 會跑出404 因為沒連到主機
 @app.route("/") # 指定對應的網址路徑
-def home(): # 對應的處理函式
-    return"<h3>Hello Flask</h3><div>This is line 1</div><script>alert('Hello');</script>" # 回應給前端的訊息
+def home(): # 對應的處理函
+    return render_template("home.html") # 回應給前端的訊息
+    #在原本的資料夾中 新增一個資料夾 "templates"
+    #在HTML中 用"!+Tab"可以跑出上面的東西<!DOCTYPE html>
 
-#例如:http://127.0.0.1:5000/test.php?keyword=關鍵字
+#例如:https://test2019-11-30.herokuapp.com/test.php?keyword=關鍵字
 @app.route("/test.php") # 指定對應的網址路徑
 def test(): # 對應的處理函式
     #取得網址列上的參數:requst.args.get(參數名稱,預設值)
@@ -64,9 +66,13 @@ def test(): # 對應的處理函式
         return redirect("/")#如果使用者沒打後面的部分(test.php?keyword=關鍵字) 則導向路徑首頁/
     else:
         if keyword in data: # 回應給前端的訊息
-            return "中文:"+data[keyword]
+            return render_template("result.html", result=data[keyword])
         else:
-            return "沒有翻譯"
+            return render_template("result.html", result="沒有翻譯")
 
-app.run() # 啟動伺服器
+if __name__=="__main__": # 如果以主程式執行，立即啟動伺服器
+    app.run() # 啟動伺服器
+#建立一個 "runtime.txt" 告訴它 Python的版本
+#建立一個 "requirements.txt"
+#建立一個 "Procfile" 用綠色獨角獸(gunucorn)打開app
 #TWEMINAL 會出現一個網址 複製貼上GOOGLE裡面 就可以出現一個網站
